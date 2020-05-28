@@ -1,0 +1,146 @@
+from __future__ import division, print_function
+import bisect
+import math
+import heapq
+import itertools
+import sys
+from collections import deque
+from atexit import register
+from collections import Counter
+from functools import reduce
+sys.setrecursionlimit(10000000)
+if sys.version_info[0] < 3:
+    from io import BytesIO as stream
+else:
+    from io import StringIO as stream
+ 
+ 
+if sys.version_info[0] < 3:
+    class dict(dict):
+        """dict() -> new empty dictionary"""
+        def items(self):
+            """D.items() -> a set-like object providing a view on D's items"""
+            return dict.iteritems(self)
+ 
+        def keys(self):
+            """D.keys() -> a set-like object providing a view on D's keys"""
+            return dict.iterkeys(self)
+ 
+        def values(self):
+            """D.values() -> an object providing a view on D's values"""
+            return dict.itervalues(self)
+ 
+    input = raw_input
+    range = xrange
+ 
+    filter = itertools.ifilter
+    map = itertools.imap
+    zip = itertools.izip
+ 
+ 
+def sync_with_stdio(sync=True):
+    """Set whether the standard Python streams are allowed to buffer their I/O.
+ 
+    Args:
+        sync (bool, optional): The new synchronization setting.
+ 
+    """
+    global input, flush
+ 
+    if sync:
+        flush = sys.stdout.flush
+    else:
+        sys.stdin = stream(sys.stdin.read())
+        input = lambda: sys.stdin.readline().rstrip('\r\n')
+ 
+        sys.stdout = stream()
+        register(lambda: sys.__stdout__.write(sys.stdout.getvalue()))
+
+m=1000000007
+def main():
+    def powerNumbers(n):
+    
+        v =set()
+        v.add(1)
+    
+        for i in range(2,1000001):
+            pc=3
+            temp=pow(i,2)
+            v.add(temp)
+            while (pow(i,pc) <= (n)):
+                temp=pow(i,pc)
+                v.add(temp)
+                pc+=1
+        
+        return v
+    
+    ar=powerNumbers(1000000000000)
+    ar=sorted(ar)
+    s=0
+    t=int(input())
+    while t:
+        n=int(input())
+        t-=1
+        sumi=0
+        dc=set()
+        # print(len(ar))
+        if n<=1000000000000:
+            for i in ar:
+                if n>=i:
+                    sumi=(sumi+(i*math.floor(n/i))%m)
+                else:
+                    break
+            print(int(sumi)%m)
+        else:
+            for i in ar:
+                sumi=(sumi+(i*math.floor(n/i))%m)%m
+                
+            breaks=[]
+            max_value=(n//(1000001*1000001))
+            # print(max_value)
+            max_value_p=[]
+    
+            
+            while max_value>=1:
+                b=int(math.sqrt((n//max_value)))
+                breaks.append(b)
+                max_value_p.append(max_value)
+                max_value=(n//((b+1)*(b+1)))
+            # max_value_p.sort(reverse=True)
+            # max_value_p.sort(reverse=True)
+            # print(max_value_p)
+    
+            
+            curr=0
+            final=0
+            for i in range(len(breaks)-1):
+                start=breaks[i]
+                end=breaks[i+1]
+                due=start-1
+                
+                a=(((due)))%m
+                b=(a+1)%m
+                c=((2*a)%m+1)%m
+                d=pow(6,m-2,m)%m
+                
+                a1=(((end)))%m
+                b1=(a1+1)%m
+                c1=((2*a1)%m+1)%m
+                d1=pow(6,m-2,m)%m
+                # print(a,b,c,d,a1,b1,c1,d1)
+                first=((((((a1*b1)%m)*c1)%m)*d1)%m)
+                second=((((((a*b)%m)*c)%m)*d)%m)
+                catalyst=(max_value_p[curr])%m
+                
+                f=((first-second+m)*catalyst)%m
+                
+                final=(final+f)%m
+                curr+=1
+            print((int(final+sumi))%m)
+            
+
+            
+
+if __name__ == '__main__':
+    sync_with_stdio(False)
+    main()

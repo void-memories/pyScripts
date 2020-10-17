@@ -1,21 +1,19 @@
-n=int(input())
-s=input()
-a,b=input().split()
-b=int(b)
+y=int(input())
+i=1
+while 1:
+    flag=1
+    n=i
+    while(n//10!=0):
+        a=n%10
+        n//=10
+        if (a-n%10)==0 or (a-n%10)==-1 or (a-n%10)==1:
+            donothing=1
+        else:
+            flag=0
 
-org=[]
-enc=[]
-i=a
-z=1
-while((ord(i) + z)<=90):
-    org.append(i)
-    enc.append(chr(ord(i) + z))
-    i=chr(ord(i)+1)
-    z+=1
-#print(org,enc)
-
-for letter in s:
-    for letter2 in range(len(enc)):
-        if letter==enc[letter2]:
-            print(org[letter2],sep='',end='')
-print()
+    if flag:
+        cnt+=1
+    if cnt==y:
+        break
+    i+=1
+print(i)
